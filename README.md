@@ -38,7 +38,7 @@
 - Create a kubeflow training and deployment pipeline including all classes, functions
 - Create a cloud storage trigger 01 and function 01 to invoke the main pipeline
 - Main pipeline is invoked by cloud function 01 when a new weekly batch file is uploaded to weekly data folder
-- The main pipeline kicks of the training pipeline [Need to add logic that if the training pipeline hasnt change dont need to kick it off] 
+- The main pipeline kicks of the training pipeline [Need to add logic that if the training pipeline image hasnt changed dont need to kick it off] 
 - Deployment pipeline is invoked by cloud function 02 when a new final model object is uploaded to a GCS bucket 
 - Model is deployed on Kubernetes using Seldon and applied to the weekly batch extract on GCS
 - Output of the scored file is stored in the GCS bucket to be used by the marketing team
