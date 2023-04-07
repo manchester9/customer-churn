@@ -1,0 +1,166 @@
+{
+  "pipelineSpec": {
+    "components": {
+      "comp-perform-eda": {
+        "executorLabel": "exec-perform-eda",
+        "inputDefinitions": {
+          "parameters": {
+            "dest_bucket_uri": {
+              "type": "STRING"
+            },
+            "run_id": {
+              "type": "STRING"
+            },
+            "source_file": {
+              "type": "STRING"
+            }
+          }
+        }
+      },
+      "comp-train": {
+        "executorLabel": "exec-train",
+        "inputDefinitions": {
+          "parameters": {
+            "dest_bucket_uri": {
+              "type": "STRING"
+            },
+            "run_id": {
+              "type": "STRING"
+            },
+            "source_file": {
+              "type": "STRING"
+            }
+          }
+        }
+      }
+    },
+    "deploymentSpec": {
+      "executors": {
+        "exec-perform-eda": {
+          "container": {
+            "args": [
+              "--executor_input",
+              "{{$}}",
+              "--function_to_execute",
+              "perform_eda"
+            ],
+            "command": [
+              "sh",
+              "-c",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'pandas==1.2.4' 'gcsfs' 'fsspec' 'matplotlib==3.3.4' 'seaborn==0.11.2' 'kfp==1.8.19' && \"$0\" \"$@\"\n",
+              "sh",
+              "-ec",
+              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
+              "\nimport kfp\nfrom kfp.v2 import dsl\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef perform_eda(run_id: str, dest_bucket_uri: str, source_file: str) -> None:\n    '''\n    perform eda on df and save figures to images folder\n    input:\n            df: pandas dataframe\n    output:\n            None\n    '''\n    import io\n    import pandas as pd\n    import matplotlib.pyplot as plt\n    import seaborn as sns\n\n    from google.cloud import storage\n\n    import logging\n    import sys\n    # set up logging\n    logging.basicConfig(stream = sys.stdout)\n    logger = logging.getLogger(\"churn\")\n    logger.setLevel(\"INFO\")\n\n    def save_plot_to_gcs(plot, dest_bucket_uri, plot_name):\n        buf = io.BytesIO()\n        plot.savefig(buf, format='png')\n\n        # init GCS client and upload buffer contents\n        client = storage.Client()\n        bucket = client.get_bucket(dest_bucket_uri[5:])\n        blob = bucket.blob(f'{run_id}/plots/{plot_name}.png')\n        blob.upload_from_file(buf, content_type='image/png', rewind=True)\n        return \n\n    df = pd.read_csv(source_file)\n    logging.info(f\"Pipeline Run ID: {run_id}\")\n    logging.info(f\"Read in input data; Shape: {df.shape}\")\n\n    fig = plt.figure(figsize=(20,10)) \n    df['Churn'] = df['Attrition_Flag'].apply(lambda val: 0 if val == \"Existing Customer\" else 1)\n    df['Churn'].hist()\n    fig_to_upload = plt.gcf()\n    save_plot_to_gcs(plot = fig_to_upload, dest_bucket_uri=dest_bucket_uri, plot_name = \"first_plot\")\n    # plt.savefig('./images/eda/churn_histogram')\n\n    return\n\n    # plt.figure(figsize=(20,10)) \n    # df['Customer_Age'].hist()\n    # plt.savefig('./images/eda/age_histogram')\n\n\n    # plt.figure(figsize=(20,10)) \n    # df.Marital_Status.value_counts('normalize').plot(kind='bar')\n    # plt.savefig('./images/eda/marital_status_bins')\n\n    # plt.figure(figsize=(20,10)) \n    #     # distplot is deprecated. Use histplot instead\n    #     # sns.distplot(df['Total_Trans_Ct']);\n    #     # Show distributions of 'Total_Trans_Ct' and add a smooth curve obtained using a kernel density estimate\n    # sns.histplot(df['Total_Trans_Ct'], stat='density', kde=True)\n    # plt.savefig('./images/eda/total_trans_ct_histogram_density_plot')\n\n    # plt.figure(figsize=(20,10)) \n    # sns.heatmap(df.corr(), annot=False, cmap='Dark2_r', linewidths = 2)\n    # plt.savefig('./images/eda/variable_heatmap')\n\n"
+            ],
+            "image": "python:3.8-slim",
+            "resources": {
+              "cpuLimit": 1.0,
+              "memoryLimit": 3.0
+            }
+          }
+        },
+        "exec-train": {
+          "container": {
+            "args": [
+              "--run-id",
+              "{{$.inputs.parameters['run_id']}}",
+              "--dest-bucket-uri",
+              "{{$.inputs.parameters['dest_bucket_uri']}}",
+              "--source-file",
+              "{{$.inputs.parameters['source_file']}}"
+            ],
+            "command": [
+              "python3",
+              "src/main.py"
+            ],
+            "image": "gcr.io/designing-ml-systems-382919/sample/churn_classifier:v1.0.0"
+          }
+        }
+      }
+    },
+    "pipelineInfo": {
+      "name": "churn-prediction-pipeline"
+    },
+    "root": {
+      "dag": {
+        "tasks": {
+          "perform-eda": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-perform-eda"
+            },
+            "inputs": {
+              "parameters": {
+                "dest_bucket_uri": {
+                  "componentInputParameter": "dest_bucket_uri"
+                },
+                "run_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "{{$.pipeline_job_name}}"
+                    }
+                  }
+                },
+                "source_file": {
+                  "componentInputParameter": "source_file"
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "Ingest Data & Perform EDA"
+            }
+          },
+          "train": {
+            "cachingOptions": {
+              "enableCache": true
+            },
+            "componentRef": {
+              "name": "comp-train"
+            },
+            "dependentTasks": [
+              "perform-eda"
+            ],
+            "inputs": {
+              "parameters": {
+                "dest_bucket_uri": {
+                  "componentInputParameter": "dest_bucket_uri"
+                },
+                "run_id": {
+                  "runtimeValue": {
+                    "constantValue": {
+                      "stringValue": "{{$.pipeline_job_name}}"
+                    }
+                  }
+                },
+                "source_file": {
+                  "componentInputParameter": "source_file"
+                }
+              }
+            },
+            "taskInfo": {
+              "name": "Train Models"
+            }
+          }
+        }
+      },
+      "inputDefinitions": {
+        "parameters": {
+          "dest_bucket_uri": {
+            "type": "STRING"
+          },
+          "source_file": {
+            "type": "STRING"
+          }
+        }
+      }
+    },
+    "schemaVersion": "2.0.0",
+    "sdkVersion": "kfp-1.8.19"
+  },
+  "runtimeConfig": {
+    "gcsOutputDirectory": "gs://vertex_pipeline_hello_world_01/pipeline_root/intro"
+  }
+}

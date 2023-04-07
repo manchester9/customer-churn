@@ -1,0 +1,16 @@
+name: Train
+description: Trains churn classifier models
+inputs:
+  - {name: run_id, type: {String}, description: 'Pipeline run id.'}
+  - {name: dest_bucket_uri, type: {String}, description: 'GCS path where we save off output'}
+  - {name: source_file, type: {String}, description: 'GCS path to training data file.'}
+outputs:
+implementation:
+  container:
+    image: gcr.io/designing-ml-systems-382919/sample/churn_classifier:v1.0.0
+    command: [python3, src/main.py]
+    args: [
+      --run-id, {inputValue: run_id},
+      --dest-bucket-uri, {inputValue: dest_bucket_uri},
+      --source-file, {inputValue: source_file},
+    ]

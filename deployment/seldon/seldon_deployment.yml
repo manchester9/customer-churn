@@ -1,0 +1,25 @@
+apiVersion: "machinelearning.seldon.io/v1"
+kind: "SeldonDeployment"
+metadata:
+  name: "my-deployment"
+  namespace: "seldon"
+spec:
+  predictors:
+  - componentSpecs:
+    - spec:
+        containers:
+        - name: "my-model"
+          image: "my-model-image"
+          args:
+          - "--model_uri=gs://my-bucket/path/to/model.joblib"
+        terminationGracePeriodSeconds: 20
+    graph:
+      children: []
+      endpoint:
+        type: REST
+      name: "my-model"
+      type: MODEL
+
+
+# File can be activated with the below code
+!seldon deploy seldon_deployment --namespace <my-namespace> --wait
