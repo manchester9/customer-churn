@@ -3,9 +3,7 @@
 <p align="center" style="color:DodgerBlue; font-family:cambria; font-variant: normal; font-size:20pt; font-weight:bold; font-weight: 900">CUSTOMER CHURN 
 </p>
 
-![Python](https://img.shields.io/badge/python-3.9-blue) ![Pandas](https://img.shields.io/badge/pandas-1.5.3-blue) ![Tensorflow](https://img.shields.io/badge/tensorflow-2.12.0-blue) ![Kubernetes](https://img.shields.io/badge/kubernetes-1.26-blue) ![Docker](https://img.shields.io/badge/docker-4.12-blue) ![Kubeflow](https://img.shields.io/badge/kubeflow-1.6-blue) ![Status](https://img.shields.io/badge/status-work%20in%20progress-orange) ![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-green)
-
-
+![Python](https://img.shields.io/badge/python-3.9-blue) ![Pandas](https://img.shields.io/badge/pandas-1.5.3-blue) ![Tensorflow](https://img.shields.io/badge/tensorflow-2.12.0-blue) ![Kubeflow](https://img.shields.io/badge/kubeflow-1.6-blue) ![Docker](https://img.shields.io/badge/docker-4.12-blue) ![Seldon](https://img.shields.io/badge/seldon-1.15.1-blue) ![Kubernetes](https://img.shields.io/badge/kubernetes-1.26-blue) ![Status](https://img.shields.io/badge/status-work%20in%20progress-orange) ![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-green)
 
 # **Table Of Contents**
 
