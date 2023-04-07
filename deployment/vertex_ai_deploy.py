@@ -1,8 +1,6 @@
 from google.cloud import aiplatform
 # import pandas as pd
-
 import argparse
-
 
 # example way to run file
 # python3 vertex_ai_deploy.py \
