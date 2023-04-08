@@ -11,9 +11,10 @@
 - A top tier bank is having a problem retaining their customers. They are looking for someone to help them predict the customers that are going to churn so they can   proactively connect with the customer and provide relevant personalized messaging to reduce the Churn Rate
 
 ### **Challenge**
--	Build a classification model to identify customers that have a high probability of churning
--	Ensure train and deployment pipelines are created separately to mirror real world scenarios
--	Automate entire workflow with relevant technologies
+- Build a classification model to identify customers that have a high probability of churning
+- Ensure train and deployment pipelines are created separately to mirror real world scenarios
+- Create each ML stage as a reusable component
+- Automate entire workflow with relevant technologies
 
 ### **Requirements**
 - Input file with historical data is uploaded to an input_folder on GCS for training our model
