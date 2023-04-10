@@ -1,8 +1,6 @@
 from google.cloud import aiplatform
 import pandas as pd
-
 import argparse
-
 
 # example way to run file
 # python3 vertex_ai_predict.py \
@@ -10,8 +8,6 @@ import argparse
 # --region "us-central1" \
 # --endpoint_id "3280815153934761984" \
 # --pred_df_path "predict_data/sample_customers.csv"
-
-
 
 def predict(project_id, region, endpoint_id, pred_df_path):
 
