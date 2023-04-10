@@ -13,7 +13,7 @@
 ### **Challenge**
 - Build a classification model to identify customers that have a high probability of churning
 - Ensure train and deployment pipelines are created separately to mirror real world scenarios
-- Create each ML stage as a reusable component
+- Create each ML stage as a reusable component to be used within a main pipeline
 - Automate entire workflow with relevant technologies
 
 ### **Requirements**
