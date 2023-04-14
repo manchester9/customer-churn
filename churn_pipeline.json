@@ -55,8 +55,8 @@
             ],
             "image": "python:3.8-slim",
             "resources": {
-              "cpuLimit": 4,
-              "memoryLimit": 16
+              "cpuLimit": 1.0,
+              "memoryLimit": 3.0
             }
           }
         },
@@ -161,6 +161,6 @@
     "sdkVersion": "kfp-1.8.19"
   },
   "runtimeConfig": {
-    "gcsOutputDirectory": "gs://vertex_pipeline_hello_world_01/pipeline_root/intro"
+    "gcsOutputDirectory": "gs://vertex_pipeline_hello_world_1_01/pipeline_root/intro"
   }
 }

@@ -62,17 +62,17 @@ def pipeline(dest_bucket_uri: str, source_file: str):
         set_display_name("Train Models").\
         after(perform_eda_task)
     
-    model_upload_op = ModelUploadOp(
-        project=PROJECT_ID,
-        display_name='model_upload',
-        unmanaged_container_model=dest_bucket_uri,
-    )
-    model_upload_op.after(train_task)
+    # model_upload_op = ModelUploadOp(
+    #     project=PROJECT_ID,
+    #     display_name='model_upload',
+    #     unmanaged_container_model=dest_bucket_uri,
+    # )
+    # model_upload_op.after(train_task)
 
-    endpoint_create_op = EndpointCreateOp(
-        project=PROJECT_ID,
-        display_name="pipelines-created-endpoint",
-    ).after(model_upload_op)
+    # endpoint_create_op = EndpointCreateOp(
+    #     project=PROJECT_ID,
+    #     display_name="pipelines-created-endpoint",
+    # ).after(model_upload_op)
 
     # ModelDeployOp(
     #     endpoint=endpoint_create_op.outputs["endpoint"],
