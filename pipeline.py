@@ -74,14 +74,14 @@ def pipeline(dest_bucket_uri: str, source_file: str):
         display_name="pipelines-created-endpoint",
     ).after(model_upload_op)
 
-    ModelDeployOp(
-        endpoint=endpoint_create_op.outputs["endpoint"],
-        model=model_upload_op.outputs["model"],
-        deployed_model_display_name='model_deploy',
-        dedicated_resources_machine_type="n1-standard-16",
-        dedicated_resources_min_replica_count=1,
-        dedicated_resources_max_replica_count=1,
-    ).after(endpoint_create_op)
+    # ModelDeployOp(
+    #     endpoint=endpoint_create_op.outputs["endpoint"],
+    #     model=model_upload_op.outputs["model"],
+    #     deployed_model_display_name='model_deploy',
+    #     dedicated_resources_machine_type="n1-standard-16",
+    #     dedicated_resources_min_replica_count=1,
+    #     dedicated_resources_max_replica_count=1,
+    # ).after(endpoint_create_op)
 
 
 if __name__=="__main__":

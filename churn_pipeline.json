@@ -55,8 +55,8 @@
             ],
             "image": "python:3.8-slim",
             "resources": {
-              "cpuLimit": 1.0,
-              "memoryLimit": 3.0
+              "cpuLimit": 4,
+              "memoryLimit": 16
             }
           }
         },
