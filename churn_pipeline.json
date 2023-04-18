@@ -47,7 +47,7 @@
             "command": [
               "sh",
               "-c",
-              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'pandas==1.2.4' 'gcsfs' 'fsspec' 'matplotlib==3.3.4' 'seaborn==0.11.2' 'kfp==1.8.19' && \"$0\" \"$@\"\n",
+              "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip || python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet     --no-warn-script-location 'pandas==1.2.4' 'gcsfs' 'fsspec' 'matplotlib==3.3.4' 'seaborn==0.11.2' 'kfp==1.8.20' && \"$0\" \"$@\"\n",
               "sh",
               "-ec",
               "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
@@ -158,9 +158,7 @@
       }
     },
     "schemaVersion": "2.0.0",
-    "sdkVersion": "kfp-1.8.19"
+    "sdkVersion": "kfp-1.8.20"
   },
-  "runtimeConfig": {
-    "gcsOutputDirectory": "gs://vertex_pipeline_hello_world_1_01/pipeline_root/intro"
-  }
+  "runtimeConfig": {}
 }
