@@ -1,10 +1,8 @@
 # from google.cloud import aiplatform as aip
-
 from kfp import dsl
 from kfp import compiler
 from kfp.components import load_component_from_url
-# from google_cloud_pipeline_components.v1.endpoint import (EndpointCreateOp,
-#                                                               ModelDeployOp)
+# from google_cloud_pipeline_components.v1.endpoint import (EndpointCreateOp, ModelDeployOp)
 from google_cloud_pipeline_components.v1.model import ModelUploadOp
 
 from pipeline_components import (
@@ -97,21 +95,6 @@ def pipeline(dest_bucket_uri: str, source_file: str, ):
     deploy_task = kserve(action="apply", inferenceservice_yaml=isvc_yaml
                  ).after(model_upload_op).set_display_name("Deployer")
     
-    # endpoint_create_op = EndpointCreateOp(
-    #     project=PROJECT_ID,
-    #     display_name="pipelines-created-endpoint",
-    # ).after(model_upload_op)
-
-    # ModelDeployOp(
-    #     endpoint=endpoint_create_op.outputs["endpoint"],
-    #     model=model_upload_op.outputs["model"],
-    #     deployed_model_display_name='model_deploy',
-    #     dedicated_resources_machine_type="n1-standard-16",
-    #     dedicated_resources_min_replica_count=1,
-    #     dedicated_resources_max_replica_count=1,
-    # ).after(endpoint_create_op)
-
-
 if __name__=="__main__":
 
 
@@ -121,5 +104,3 @@ if __name__=="__main__":
     compiler.Compiler().compile(pipeline, 'pipeline.tar.gz', type_check=True)
 
     # clean up
-    # training triger input 
-    # deploy - scheduled (?) trigger POSTMAN
