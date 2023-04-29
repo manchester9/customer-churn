@@ -32,7 +32,7 @@
 ### **High level architecture**
 <p align="center"><img width=60% src="images/customer_churn_architecture.png"></p>
 
-- Experiment in notebook to train-test-evaluate historical data in GCS 
+- Experiment in notebook to train-test-validate historical data in GCS 
 - Create separate classes, and function script files
 - Create a kubeflow training and deployment pipeline including all classes, functions
 - Create a cloud storage trigger 01 and function 01 to invoke the main pipeline
