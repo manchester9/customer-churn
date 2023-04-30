@@ -27,7 +27,7 @@
 - Track metrics of deployed model using Grafana and Prometheus
 - Integrate MLFlow into the Kubeflow pipelines for model registry and metadata store
 - Include explainability concepts using SHAP
-- Deploy cloud functions using Terraform for futher automation of pipeline 
+- Deploy cloud functions using Terraform for futher infrastructure automation of pipeline 
 
 ### **High level architecture**
 <p align="center"><img width=60% src="images/customer_churn_architecture.png"></p>
