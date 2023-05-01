@@ -6,6 +6,7 @@ REGION = 'us-central1'                 # <---CHANGE THIS
 # this is where pipeline output information is saved off ()
 PIPELINE_ROOT = 'gs://vertex_pipeline_hello_world_01/logs'   # <---CHANGE THIS
 DISPLAY_NAME = 'churn_pipeline'
+# Eastern region for cluster
 
 # Triggered by a change in a storage bucket
 @functions_framework.cloud_event
