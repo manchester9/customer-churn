@@ -49,7 +49,5 @@
 - Cloud storage trigger
 - Cloud functions
 - Docker
-- Seldon  
 - Kubernetes
-- Vertex AI
-
+- Kubeflow
