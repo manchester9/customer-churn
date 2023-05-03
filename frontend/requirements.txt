@@ -4,3 +4,4 @@ dash_html_components
 jinja2
 joblib
 pandas
+numpy
