@@ -44,10 +44,10 @@
 - The processing steps of the pipeline can be monitored within Vertex AI or the Kubeflow UI 
 
 ### **Technologies**
-- Python, TensorFlow, & Keras (Need to add deep learning models)
+- Python, TensorFlow, & Keras (Added relevant deep learning models)
 - Google Cloud Storage
 - Cloud storage trigger
 - Cloud functions
 - Docker
 - Kubernetes
-- Kubeflow
+- Kubeflow pipelines, UI
